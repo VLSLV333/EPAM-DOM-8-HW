@@ -15,5 +15,5 @@ externalService.getCountryListByRegion()
 
 console.log(externalService.getRegionsList());
 console.log(externalService.getLanguagesList());
-console.log(externalService.getCountryListByLanguage());
-console.log(externalService.getCountryListByRegion());
+console.log(externalService.getCountryListByLanguage('Arabic'));
+console.log(externalService.getCountryListByRegion('Europe'));
