@@ -162,8 +162,15 @@ tableBody.setAttribute('id', 'mytable')
 
 table.append(staticHeading, tableBody)
 
+//   тестова частина, вставляю сьорч для таблиці
+let searchInput = document.createElement('input')
+searchInput.setAttribute('type','text')
+searchInput.setAttribute('id','myinput')
+searchInput.setAttribute('placeholder','Search...')
+searchInput.setAttribute('title','Type in something')
 
-appRoot.append(h1Header, form, table);
+
+appRoot.append(h1Header, form, searchInput, table);
 // appRoot.append(h1Header, form);
 
 
@@ -203,17 +210,148 @@ document.getElementById('select').addEventListener('change', function() {
         appRoot.append(pText)
     }else {
         appRoot.removeChild(pText)
+        let testInput = document.getElementById('myinput');
+        let dynamicTable = document.getElementById('mytable')
+        let tableData = externalService.getCountryListByRegion(this.value)
+        console.log(tableData);
+
+        let toggleUpClassName = 'toggle-caret-up';
+        let toggleDownClassName = 'toggle-caret-down';
+
+        const sort_by = (field, reverse, primer) => {
+
+            const key = primer ?
+            function(x) {
+                return primer(x[field]);
+            } :
+            function(x) {
+                return x[field];
+            };
+        
+            reverse = !reverse ? 1 : -1;
+        
+            return function(a, b) {
+            return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+            };
+        };
+
+        function clearArrow() {
+            let toggles = document.getElementsByClassName('toggle');
+            for (let toggle of toggles) {
+                toggle.className = "toggle";
+            }
+        }
+
+        function toggleArrow(event) {
+            let element = event.target;
+            let toggle, field, reverse;
+            if (element.tagName === 'SPAN') {
+                toggle = element.getElementsByClassName('toggle')[0];
+                field = element.id
+            }
+            else {
+                toggle = element;
+                field = element.parentElement.id
+            }
+    
+            let iconClassName = toggle.className;
+            clearArrow();
+            if (iconClassName.includes(toggleUpClassName)) {
+                toggle.className = `caret ${toggleDownClassName}`;
+                reverse = false;
+            } else {
+                reverse = true;
+                toggle.className = `caret ${toggleUpClassName}`;
+            }
+    
+            tableData.sort(sort_by(field, reverse));
+            populateTable();
+        }
+
+        // ця функція викликає 4 ряди в прикладі, мені потрібно її змінити, щоб вона викликала 6 моїх
+        function populateTable() {
+            
+            dynamicTable.innerHTML = '';
+            // table.append(staticHeading)
+            
+            for (let data of tableData) {
+                let row = dynamicTable.insertRow(-1);
+                let countryName = row.insertCell(0);
+                countryName.innerHTML = data.name;
+    
+                let capital = row.insertCell(1);
+                capital.innerHTML = data.capital;
+    
+                let worldRegion = row.insertCell(2);
+                worldRegion.innerHTML = data.region;
+    
+                let languages = row.insertCell(3);
+                languages.innerHTML = data.languages;
+
+                let area = row.insertCell(4);
+                area.innerHTML = data.area;
+
+                let flag = row.insertCell(5);
+                // let flagImg = document.createElement('img')
+                // flagImg.setAttribute('src', data.flagURL)
+                // flagImg.setAttribute('alt', 'flag image')
+                // flag.append(flagImg)
+                flag.innerText = 'Vlad';
+            }
+            filterTable();
+        }
+
+        function filterTable() {
+            let filter = testInput.value.toUpperCase();
+            rows = table.getElementsByTagName("TR");
+            let flag = false;
+    
+            for (let row of rows) {
+                let cells = row.getElementsByTagName("TD");
+                for (let cell of cells) {
+                if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
+                    flag = true;
+                    break;
+                }
+                }
+    
+
+                //   причина по якій зникає тейбл хедінг
+                if (flag) {
+                row.style.display = "";
+                } else {
+                row.style.display = "none";
+                }
+    
+                flag = false;
+            }
+        }
+
+        populateTable();
+
+        let tableColumns = document.getElementsByClassName('column');
+
+        for (let column of tableColumns) {
+            column.addEventListener('click', function(event) {
+                toggleArrow(event);
+            });
+        }
+        
+        testInput.addEventListener('keyup', function(event) {
+            filterTable();
+        });
 
     }
     
-    console.log('You selected: ', typeof this.value);
+    console.log('You selected: ', this.value);
   });
 
 
 
 
 
-console.log(externalService.getRegionsList());
-console.log(externalService.getLanguagesList());
-console.log(externalService.getCountryListByLanguage('Europe'));
-console.log(externalService.getCountryListByRegion('Europe'));
+
+// console.log(externalService.getRegionsList());
+// console.log(externalService.getLanguagesList());
+// console.log(externalService.getCountryListByLanguage('Europe'));
+// console.log(externalService.getCountryListByRegion('Europe'));
