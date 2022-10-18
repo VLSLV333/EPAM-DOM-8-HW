@@ -67,7 +67,7 @@ appRoot.append(h1Header, form);
 const radios = document.querySelectorAll('input')
 
 for (const radio of radios) {
-  radio.onclick = (e) => {
+  radio.onclick = () => {
     radio.onclick.checked = true;
     if(document.getElementById('region1').checked === true){
         appRoot.append(pText)
@@ -111,7 +111,9 @@ if (pText){
     pText.remove()
 }
 
-if (appRoot.childNodes.length == 2){
+let numberOfChildrenBeforeTableAppend = 2;
+
+if (appRoot.childNodes.length === numberOfChildrenBeforeTableAppend){
 
     let tableData;
     if (document.getElementById('region1').checked === true){
@@ -219,10 +221,15 @@ let table = document.getElementById('mytable');
             return x[field];
         };
 
-        reverse = !reverse ? 1 : -1;
+        let upSort = 1;
+        let downSort = -1;
+
+        reverse = !reverse ? upSort : downSort;
         
         return function(a, b) {
-        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+            a = key(a);
+            b = key(b)
+        return reverse * ((a > b) - (b > a));
         };
     };
 
@@ -240,8 +247,7 @@ let table = document.getElementById('mytable');
         if (element.tagName === 'SPAN') {
             caret = element.getElementsByClassName(`caret`)[0];
             field = element.id
-        }
-        else {
+        } else {
             caret = element;
             field = element.parentElement.id
         }
@@ -263,40 +269,50 @@ let table = document.getElementById('mytable');
         table.innerHTML = '';
 
         for (let data of tableData) {
-            let row = table.insertRow(-1);
+            let mdnRequiringNumber = -1;
+            let row = table.insertRow(mdnRequiringNumber);
             row.setAttribute('class', 'grey')
-            let name = row.insertCell(0);
+            
+            let cellIndexNumber0 = 0;
+            let name = row.insertCell(cellIndexNumber0);
             name.innerHTML = data.name;
     
-            let quantity = row.insertCell(1);
+            let cellIndexNumber1 = 1;
+            let quantity = row.insertCell(cellIndexNumber1);
             quantity.innerHTML = data.capital;
     
-            let price = row.insertCell(2);
+            let cellIndexNumber2 = 2;
+            let price = row.insertCell(cellIndexNumber2);
             price.innerHTML = data.region;
     
-            let expiry = row.insertCell(3);
+            let cellIndexNumber3 = 3;
+            let expiry = row.insertCell(cellIndexNumber3);
             let expiryArray = []
             for (key in data.languages){
-                expiryArray.push(data.languages[key]);
+                if (typeof key === 'string'){
+                    expiryArray.push(data.languages[key]);
+                }
             }
             expiry.innerHTML = expiryArray.join(', ')
     
-            let area = row.insertCell(4);
+            let cellIndexNumber4 = 4;
+            let area = row.insertCell(cellIndexNumber4);
             area.innerHTML = data.area;
     
-            let flag = row.insertCell(5);
+            let cellIndexNumber5 = 5;
+            let flag = row.insertCell(cellIndexNumber5);
             flag.innerHTML = 'Flag here';
         }
         let tableRows = document.getElementsByClassName(`grey`)
 
     for (let row of tableRows) {
-        row.addEventListener('mouseover', () =>{
+        row.addEventListener('mouseover', () => {
             row.setAttribute('style', 'background-color: rgb(100, 100, 100)')
         });
     }
 
     for (let row of tableRows) {
-         row.addEventListener('mouseout', () =>{
+         row.addEventListener('mouseout', () => {
             row.setAttribute('style', '')
         });
     }
@@ -428,10 +444,15 @@ let table = document.getElementById('mytable');
             return x[field];
         };
         
-        reverse = !reverse ? 1 : -1;
+        let upSort = 1;
+        let downSort = -1;
+
+        reverse = !reverse ? upSort : downSort;
         
         return function(a, b) {
-        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+            a = key(a);
+            b = key(b)
+        return reverse * ((a > b) - (b > a));
         };
     };
 
@@ -448,8 +469,7 @@ let table = document.getElementById('mytable');
         if (element.tagName === 'SPAN') {
             caret = element.getElementsByClassName(`caret`)[0];
             field = element.id
-        }
-        else {
+        } else {
             caret = element;
             field = element.parentElement.id
         }
@@ -473,41 +493,51 @@ let table = document.getElementById('mytable');
         table.innerHTML = '';
 
         for (let data of tableData) {
-            let row = table.insertRow(-1);
+            let mdnRequiringNumber = -1;
+            let row = table.insertRow(mdnRequiringNumber);
             row.setAttribute('class', 'grey')
-            let name = row.insertCell(0);
+            
+            let cellIndexNumber0 = 0;
+            let name = row.insertCell(cellIndexNumber0);
             name.innerHTML = data.name;
     
-            let quantity = row.insertCell(1);
+            let cellIndexNumber1 = 1;
+            let quantity = row.insertCell(cellIndexNumber1);
             quantity.innerHTML = data.capital;
     
-            let price = row.insertCell(2);
+            let cellIndexNumber2 = 2;
+            let price = row.insertCell(cellIndexNumber2);
             price.innerHTML = data.region;
     
-            let expiry = row.insertCell(3);
+            let cellIndexNumber3 = 3;
+            let expiry = row.insertCell(cellIndexNumber3);
             let expiryArray = []
             for (key in data.languages){
-                expiryArray.push(data.languages[key]);
+                if (typeof key === 'string'){
+                    expiryArray.push(data.languages[key]);
+                }
             }
             expiry.innerHTML = expiryArray.join(', ')
     
-            let area = row.insertCell(4);
+            let cellIndexNumber4 = 4;
+            let area = row.insertCell(cellIndexNumber4);
             area.innerHTML = data.area;
     
-            let flag = row.insertCell(5);
+            let cellIndexNumber5 = 5;
+            let flag = row.insertCell(cellIndexNumber5);
             flag.innerHTML = 'Flag here';
         }
 
         let tableRows = document.getElementsByClassName(`grey`)
 
         for (let row of tableRows) {
-            row.addEventListener('mouseover', () =>{
+            row.addEventListener('mouseover', () => {
                 row.setAttribute('style', 'background-color: rgb(100, 100, 100)')
             });
         }
     
         for (let row of tableRows) {
-             row.addEventListener('mouseout', () =>{
+             row.addEventListener('mouseout', () => {
                 row.setAttribute('style', '')
             });
         }
