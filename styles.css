@@ -1,7 +1,45 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+form{
+    text-align: center;
+    margin-bottom: 10px;
+}
+h1{
+    text-align: center;
+}
 #typeofsearchfield{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
-table, th, td {
+td {
     border: 1px solid;
+    padding: 20px;
+    text-align: center;
   }
+th {
+    background-color: rgb(40, 154, 40);
+    border: 0,5px solid white;
+    color: white;
+    font-weight: 300;
+    padding: 20px;
+}
+tr{
+    background: rgb(206, 206, 205);
+}
+#mytable tr:nth-of-type(2n) {
+    background: rgb(255, 255, 255);
+  }
+.caret:after{
+    content: '↕ ';
+}
+.headerSortDown:after {
+    content: '↑';
+}
+
+.headerSortUp:after {
+    content: '↓';
+}
